@@ -1,0 +1,95 @@
+<!-- <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #009688;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">COBOL BRE Rule Approval Screen</a>
+      <div class="d-flex">
+        <button class="btn btn-outline-light me-2" type="button">
+          <i class="bi bi-question-circle"></i>
+        </button>
+        <button class="btn btn-outline-light me-2" type="button">
+          <i class="bi bi-bell"></i>
+          <span class="badge bg-danger">1</span>
+        </button>
+        <button class="btn btn-outline-light" type="button">
+          <i class="bi bi-person-circle"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" routerLink="/home">
+                <i class="bi bi-house"></i> Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/rule-details">
+                <i class="bi bi-table"></i> Rule Details
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  </div> -->
+
+
+  <nav class="top-nav">
+    <div class="logo">COBOL BRE Rule Approval Screen</div>
+    <div class="icons">
+      <button class="icon-button" (click)="toggleHelpModal()" title="Help">
+        <i class="bi bi-question-circle"></i>
+      </button>
+      <button class="icon-button" (click)="toggleNotifications()" title="Notifications">
+        <i class="bi bi-bell-fill"></i>
+        <span class="notification-badge" *ngIf="notificationCount > 0">{{notificationCount}}</span>
+      </button>
+      <button class="icon-button" (click)="toggleUserMenu()" title="User Menu">
+        <i class="bi bi-person-circle"></i>
+      </button>
+    </div>
+  </nav>
+  
+  <nav class="side-nav">
+    <ul>
+      <li routerLinkActive="active">
+        <a routerLink="/home">
+          <i class="bi bi-house-door-fill"></i>
+          <span class="nav-text">Home</span>
+        </a>
+      </li>
+      <li routerLinkActive="active">
+        <a routerLink="/rule-details">
+          <i class="bi bi-file-earmark-text-fill"></i>
+          <span class="nav-text">Rule Details</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  
+  <!-- Help Modal -->
+  <div class="modal" *ngIf="showHelpModal">
+    <div class="modal-content">
+      <h2>Help</h2>
+      <p>This is where you can provide help information to the user.</p>
+      <button (click)="toggleHelpModal()">Close</button>
+    </div>
+  </div>
+  
+  <!-- User Menu -->
+  <div class="user-menu" *ngIf="showUserMenu">
+    <ul>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Settings</a></li>
+      <li><a href="#">Logout</a></li>
+    </ul>
+  </div>
+  
