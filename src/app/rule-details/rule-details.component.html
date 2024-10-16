@@ -1,1 +1,140 @@
-<p>rule-details works!</p>
+<div class="rule-details-container">
+  <h2 class="rule-table-header">Rule Details</h2>
+
+  <div class="mb-3 d-flex align-items-center">
+    <span class="me-2 text-primary"><b class="policy">Policy</b></span>
+    <button class="btn btn-toggle" (click)="togglePolicy()">
+      <i class="bi" [ngClass]="policyExpanded ? 'bi-dash' : 'bi-plus'"></i>
+    </button>
+  </div>
+
+  <div class="table-responsive" *ngIf="policyExpanded">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>JAVA ELEMENTS  <i class="bi bi-sliders"></i></th>
+          <th>JAVA DATA <br>TYPE <i class="bi bi-sliders"></i></th>
+          <th>COBOL ELEMENTS <i class="bi bi-sliders"></i></th>
+          <th>COBOL DATA <br>TYPE <i class="bi bi-sliders"></i></th>
+          <th>DEFAULT VALUE IF PRESENT IN COBOL <i class="bi bi-sliders"></i></th>
+          <th>BOM VERBALIZED <br>STATEMENT <i class="bi bi-sliders"></i></th>
+          <th>INPUT / <br>OUTPUT <i class="bi bi-sliders"></i></th>
+          <th>ACTIONS </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of tableData; let odd = odd" [ngClass]="{'table-light': odd, 'table-info': row.inputOutput === 'Output', 'editing': row.isEditing}">
+          <td>
+            <span *ngIf="!row.isEditing">{{row.javaElements}}</span>
+            <input *ngIf="row.isEditing" [value]="row.javaElements" (input)="onInputChange($event, 'javaElements', row)" class="form-control form-control-sm">
+          </td>
+          <td>
+            <span *ngIf="!row.isEditing">{{row.javaDataType}}</span>
+            <input *ngIf="row.isEditing" [value]="row.javaDataType" (input)="onInputChange($event, 'javaDataType', row)" class="form-control form-control-sm">
+          </td>
+          <td>
+            <span *ngIf="!row.isEditing">{{row.cobolElements}}</span>
+            <input *ngIf="row.isEditing" [value]="row.cobolElements" (input)="onInputChange($event, 'cobolElements', row)" class="form-control form-control-sm">
+          </td>
+          <td>
+            <span *ngIf="!row.isEditing">{{row.cobolDataType}}</span>
+            <input *ngIf="row.isEditing" [value]="row.cobolDataType" (input)="onInputChange($event, 'cobolDataType', row)" class="form-control form-control-sm">
+          </td>
+          <td>
+            <span *ngIf="!row.isEditing">{{row.defaultValue}}</span>
+            <input *ngIf="row.isEditing" [value]="row.defaultValue" (input)="onInputChange($event, 'defaultValue', row)" class="form-control form-control-sm">
+          </td>
+          <td>
+            <span *ngIf="!row.isEditing">{{row.bomVerbalizedStatement}}</span>
+            <input *ngIf="row.isEditing" [value]="row.bomVerbalizedStatement" (input)="onInputChange($event, 'bomVerbalizedStatement', row)" class="form-control form-control-sm">
+          </td>
+          <td>
+            <span *ngIf="!row.isEditing">{{row.inputOutput}}</span>
+            <select *ngIf="row.isEditing" [value]="row.inputOutput" (change)="onInputChange($event, 'inputOutput', row)" class="form-control form-control-sm">
+              <option value="Input">Input</option>
+              <option value="Output">Output</option>
+            </select>
+          </td>
+          <td>
+            <div class="action-icons">
+              <button *ngIf="!row.isEditing" class="btn btn-icon" (click)="editRow(row)">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button *ngIf="row.isEditing" class="btn btn-icon" (click)="saveRow(row)">
+                <i class="bi bi-save2"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-3 d-flex align-items-center">
+    <span class="me-2 text-primary"><b class="loremIpsum">Lorem Ipsum</b></span>
+    <button class="btn btn-toggle" (click)="toggleLoremIpsum()">
+      <i class="bi" [ngClass]="loremIpsumExpanded ? 'bi-dash' : 'bi-plus'"></i>
+    </button>
+  </div>
+  <div class="table-responsive" *ngIf="loremIpsumExpanded">
+    <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>JAVA ELEMENTS <i class="bi bi-sliders"></i></th>
+        <th>JAVA DATA <br>TYPE <i class="bi bi-sliders"></i></th>
+        <th>COBOL ELEMENTS <i class="bi bi-sliders"></i></th>
+        <th>COBOL DATA <br>TYPE <i class="bi bi-sliders"></i></th>
+        <th>DEFAULT VALUE IF PRESENT IN COBOL <i class="bi bi-sliders"></i></th>
+        <th>BOM VERBALIZED <br>STATEMENT <i class="bi bi-sliders"></i></th>
+        <th>INPUT /<br>OUTPUT <i class="bi bi-sliders"></i></th>
+        <th>ACTIONS </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of tableData; let odd = odd" [ngClass]="{'table-light': odd, 'table-info': row.inputOutput === 'Output', 'editing': row.isEditing}">
+        <td>
+          <span *ngIf="!row.isEditing">{{row.javaElements}}</span>
+          <input *ngIf="row.isEditing" [value]="row.javaElements" (input)="onInputChange($event, 'javaElements', row)" class="form-control form-control-sm">
+        </td>
+        <td>
+          <span *ngIf="!row.isEditing">{{row.javaDataType}}</span>
+          <input *ngIf="row.isEditing" [value]="row.javaDataType" (input)="onInputChange($event, 'javaDataType', row)" class="form-control form-control-sm">
+        </td>
+        <td>
+          <span *ngIf="!row.isEditing">{{row.cobolElements}}</span>
+          <input *ngIf="row.isEditing" [value]="row.cobolElements" (input)="onInputChange($event, 'cobolElements', row)" class="form-control form-control-sm">
+        </td>
+        <td>
+          <span *ngIf="!row.isEditing">{{row.cobolDataType}}</span>
+          <input *ngIf="row.isEditing" [value]="row.cobolDataType" (input)="onInputChange($event, 'cobolDataType', row)" class="form-control form-control-sm">
+        </td>
+        <td>
+          <span *ngIf="!row.isEditing">{{row.defaultValue}}</span>
+          <input *ngIf="row.isEditing" [value]="row.defaultValue" (input)="onInputChange($event, 'defaultValue', row)" class="form-control form-control-sm">
+        </td>
+        <td>
+          <span *ngIf="!row.isEditing">{{row.bomVerbalizedStatement}}</span>
+          <input *ngIf="row.isEditing" [value]="row.bomVerbalizedStatement" (input)="onInputChange($event, 'bomVerbalizedStatement', row)" class="form-control form-control-sm">
+        </td>
+        <td>
+          <span *ngIf="!row.isEditing">{{row.inputOutput}}</span>
+          <select *ngIf="row.isEditing" [value]="row.inputOutput" (change)="onInputChange($event, 'inputOutput', row)" class="form-control form-control-sm">
+            <option value="Input">Input</option>
+            <option value="Output">Output</option>
+          </select>
+        </td>
+        <td>
+          <div class="action-icons">
+            <button *ngIf="!row.isEditing" class="btn btn-icon" (click)="editRow(row)">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button *ngIf="row.isEditing" class="btn btn-icon" (click)="saveRow(row)">
+              <i class="bi bi-save2"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    </table>
+  </div>
+</div>
