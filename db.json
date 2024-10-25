@@ -1,0 +1,31 @@
+{
+  "rules": [
+    {
+      "id": "1",
+      "order": 2,
+      "ruleFlow": "Calculate Premium",
+      "ruleTask": "Premium Calculation",
+      "ruleName": "Policy Holder Age Less Than 25",
+      "rule": "If The Policy Holder Age Of 'the Policy' < 25 THEN Set The Premium Amount Of 'the Policy' To Premium Value Of 'the Policy'",
+      "explanation": "If The Person Is Young(Below 25), They Get A Lower Premium Rate Of 5%"
+    },
+    {
+      "id": "2",
+      "order": 1,
+      "ruleFlow": "Calculate Premium",
+      "ruleTask": "Premium Calculation",
+      "ruleName": "Policy Holder Age Less Than 25 And 50",
+      "rule": "If The Policy Holder Age Of 'the Policy' < 25 THEN Set The Premium Amount Of 'the Policy' To Premium Value Of 'the Policy'",
+      "explanation": "If The Person Is Young(Below 25), They Get A Lower Premium Rate Of 6%"
+    },
+    {
+      "id": "3",
+      "order": 3,
+      "ruleFlow": "Calculate Premium",
+      "ruleTask": "Premium Calculation",
+      "ruleName": "Policy Holder Age 50 Or Greater",
+      "rule": "If The Policy Holder Age Of 'the Policy' < 25 THEN Set The Premium Amount Of 'the Policy' To Premium Value Of 'the Policy'",
+      "explanation": "If The Person Is Young(Below 25), They Get A Lower Premium Rate Of 5%"
+    }
+  ]
+}

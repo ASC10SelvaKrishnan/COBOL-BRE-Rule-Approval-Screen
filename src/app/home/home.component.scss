@@ -139,8 +139,8 @@ $even-row-color: #f0f7fa;
     color: $primary-color;
   }
 
-  .bi-save2 {
-    color: #28a745;
+  .bi-floppy-fill {
+    color: black;
   }
 
   .bi-check-circle {
@@ -153,7 +153,7 @@ $even-row-color: #f0f7fa;
 }
 
 .bi-sliders{
-  margin-left: 10px;
+  float: right;
 }
 
 .form-control {
@@ -170,4 +170,57 @@ $even-row-color: #f0f7fa;
   .set-rule-order {
     margin-top: 10px; // Reduced from 15px
   }
+
+  // Add these new styles to your existing SCSS file
+
+.draggable-row {
+  cursor: move;
+
+  &:hover {
+    background-color: rgba($primary-color, 0.05);
+  }
+}
+
+.order-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.drag-handle {
+  cursor: move;
+  color: $text-muted-color;
+  visibility: hidden;
+  
+  .draggable-row:hover & {
+    visibility: visible;
+  }
+}
+
+// Drag and drop styling
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  background-color: white;
+  
+  td {
+    background-color: white;
+  }
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging tr:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
 }
