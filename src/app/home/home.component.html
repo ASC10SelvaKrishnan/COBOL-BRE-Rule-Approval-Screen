@@ -1,71 +1,91 @@
 <div class="home-container">
-    <div class="header-row">
-      <div class="user-greeting">
-        <h1>Hello, {{ userName }}</h1>
-        <p class="welcome-back">Welcome Back</p>
-      </div>
-      <div class="set-rule-order">
-        <button class="btn set-rule-order-btn" (click)="setRuleOrder()">Set Rule Order</button>
-      </div>
+  <div class="header-row">
+    <div class="user-greeting">
+      <h1>Hello, {{ userName }}</h1>
+      <p class="welcome-back">Welcome Back</p>
     </div>
+    <div class="set-rule-order">
+      <button class="btn set-rule-order-btn" (click)="setRuleOrder()">
+        {{ isOrderingMode ? 'Save Rule Order' : 'Set Rule Order' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- <div *ngIf="isLoading" class="text-center py-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div> -->
   
-    <div class="rule-table-container">
-      <h2 class="rule-table-header">Rule Table</h2>
-        <div class="table-responsive">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                  <th>ORDER</th>
-                  <th> RULE FLOW <i class="bi bi-sliders"></i></th>
-                  <th> RULE TASK <i class="bi bi-sliders"></i></th>
-                  <th> RULE NAME <i class="bi bi-sliders"></i></th>
-                  <th> RULE <i class="bi bi-sliders"></i></th>
-                  <th> EXPLANATION <i class="bi bi-sliders"></i></th>
-                  <th> ACTIONS </th>
-                </tr>
-              </thead>
-          <tbody>
-          <tr *ngFor="let rule of rules; let odd = odd" [class.table-light]="odd" [class.editing]="rule.isEditing">
-            <td>{{ rule.order }}</td>
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+    <button type="button" class="btn-close float-end" (click)="error = null"></button>
+  </div>
+
+  <div class="rule-table-container">
+    <h2 class="rule-table-header">Rule Table</h2>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ORDER</th>
+            <th>RULE FLOW <i class="bi bi-sliders align-right"></i></th>
+            <th>RULE TASK <i class="bi bi-sliders align-right"></i></th>
+            <th>RULE NAME <i class="bi bi-sliders align-right"></i></th>
+            <th>RULE <i class="bi bi-sliders align-right"></i></th>
+            <th>EXPLANATION <i class="bi bi-sliders align-right"></i></th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="onDrop($event)">
+          <tr *ngFor="let rule of rules; let odd = odd" 
+              [class.table-light]="odd" 
+              [class.editing]="rule.isEditing"
+              [class.draggable-row]="isOrderingMode"
+              cdkDrag
+              [cdkDragDisabled]="!isOrderingMode">
+            <td>
+              <div class="order-cell">
+                <span>{{ rule.order }}</span>
+                <i *ngIf="isOrderingMode" class="bi bi-grip-vertical drag-handle"></i>
+              </div>
+            </td>
             <td>
               <span *ngIf="!rule.isEditing">{{ rule.ruleFlow }}</span>
-              <input *ngIf="rule.isEditing" [(ngModel)]="rule.ruleFlow" class="form-control">
+              <input *ngIf="rule.isEditing" [(ngModel)]="rule.ruleFlow" (ngModelChange)="onInputChange(rule)" class="form-control">
             </td>
             <td>
               <span *ngIf="!rule.isEditing">{{ rule.ruleTask }}</span>
-              <input *ngIf="rule.isEditing" [(ngModel)]="rule.ruleTask" class="form-control">
+              <input *ngIf="rule.isEditing" [(ngModel)]="rule.ruleTask" (ngModelChange)="onInputChange(rule)" class="form-control">
             </td>
             <td>
               <span *ngIf="!rule.isEditing">{{ rule.ruleName }}</span>
-              <input *ngIf="rule.isEditing" [(ngModel)]="rule.ruleName" class="form-control">
+              <input *ngIf="rule.isEditing" [(ngModel)]="rule.ruleName" (ngModelChange)="onInputChange(rule)" class="form-control">
             </td>
             <td>
               <span *ngIf="!rule.isEditing">{{ rule.rule }}</span>
-              <textarea *ngIf="rule.isEditing" [(ngModel)]="rule.rule" class="form-control"></textarea>
+              <textarea *ngIf="rule.isEditing" [(ngModel)]="rule.rule" (ngModelChange)="onInputChange(rule)" class="form-control"></textarea>
             </td>
             <td>
               <span *ngIf="!rule.isEditing">{{ rule.explanation }}</span>
-              <textarea *ngIf="rule.isEditing" [(ngModel)]="rule.explanation" class="form-control"></textarea>
+              <textarea *ngIf="rule.isEditing" [(ngModel)]="rule.explanation" (ngModelChange)="onInputChange(rule)" class="form-control"></textarea>
             </td>
-              <td>
-                <div class="action-icons">
-                  <button *ngIf="!rule.isEditing" class="btn btn-icon" (click)="editRule(rule)">
-                    <i class="bi bi-pencil-square"></i>
-                  </button>
-                  <button *ngIf="rule.isEditing" class="btn btn-icon" (click)="saveRule(rule)">
-                    <i class="bi bi-save2"></i>
-                  </button>
-                  <button class="btn btn-icon" (click)="approveRule(rule)" [disabled]="rule.isEditing">
-                    <i class="bi bi-check-circle"></i>
-                  </button>
-                  <button class="btn btn-icon" (click)="deleteRule(rule)" [disabled]="rule.isEditing">
-                    <i class="bi bi-x-circle"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            <td>
+              <div class="action-icons">
+                <button class="btn btn-icon" (click)="editRule(rule)" [disabled]="rule.isEditing || isOrderingMode">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-icon" (click)="saveRule(rule)" [disabled]="!rule.isEditing || !rule.hasChanges || isOrderingMode">
+                  <i class="bi bi-check-circle"></i>
+                </button>
+                <button class="btn btn-icon" (click)="cancelEdit(rule)" [disabled]="!rule.isEditing || isOrderingMode">
+                  <i class="bi bi-x-circle"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
